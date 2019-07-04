@@ -1,7 +1,9 @@
+from httpslurp.config import Config
 from sanic import Sanic
 from sanic.response import json
 
 app = Sanic()
+cfg = Config()
 
 
 @app.route("/")
@@ -10,4 +12,4 @@ async def test(request):
 
 
 def main():
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=int(cfg.conf['base']['port']))

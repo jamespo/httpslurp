@@ -4,7 +4,7 @@ Dump HTTP requests to filesystem
 from setuptools import find_packages, setup
 from httpslurp.version import __version__
 
-dependencies = ['sanic']
+dependencies = ['sanic', 'pyxdg']
 
 setup(
     name='httpslurp',
