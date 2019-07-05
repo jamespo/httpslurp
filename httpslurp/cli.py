@@ -1,5 +1,7 @@
 from httpslurp.config import Config
+from httpslurp.handler import requestdump
 from sanic import Sanic
+from sanic.log import logger
 from sanic.response import json
 
 app = Sanic()
@@ -8,7 +10,9 @@ cfg = Config()
 
 @app.route("/")
 async def test(request):
-    return json({"hello": "world"})
+    dumpfile = requestdump(request, cfg.conf['base']['dumpdir'])
+    logger.info("Dumped %s" % dumpfile)
+    return json({"status": "ok"})
 
 
 def main():
