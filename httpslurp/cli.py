@@ -7,6 +7,8 @@ from sanic.response import json
 app = Sanic()
 cfg = Config()
 
+# retrieve reqs over /httpslurp URL
+app.static('/httpslurp', cfg.conf['base']['dumpdir'])
 
 @app.route("/")
 async def test(request):
@@ -14,6 +16,8 @@ async def test(request):
     logger.info("Dumped %s" % dumpfile)
     return json({"status": "ok"})
 
-
 def main():
     app.run(host="0.0.0.0", port=int(cfg.conf['base']['port']))
+
+
+
