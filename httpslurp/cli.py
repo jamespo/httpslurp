@@ -10,14 +10,15 @@ cfg = Config()
 # retrieve reqs over /httpslurp URL
 app.static('/httpslurp', cfg.conf['base']['dumpdir'])
 
+
 @app.route("/")
-async def test(request):
+@app.route('/<path:path>')
+async def catch_all(request, path=''):
+    '''catch-all hander to dump requests'''
     dumpfile = requestdump(request, cfg.conf['base']['dumpdir'])
     logger.info("Dumped %s" % dumpfile)
     return json({"status": "ok"})
 
+
 def main():
     app.run(host="0.0.0.0", port=int(cfg.conf['base']['port']))
-
-
-
