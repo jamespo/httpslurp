@@ -1,3 +1,4 @@
+import aiohttp
 import json
 import os.path
 import time
@@ -20,3 +21,14 @@ def requestdump(request, dumpdir):
             dumpdict["cookies"] = request.cookies
         logfile.write(json.dumps(dumpdict))
     return filename
+
+
+async def proxy(request, backend):
+    '''proxy request back'''
+    proxy_url = backend + request.path
+    if request.query_string != '':
+        proxy_url += '?' + request.query_string
+    async with aiohttp.ClientSession() as session:
+        async with session.get(proxy_url) as r:
+            response = await r.text()
+            return response
