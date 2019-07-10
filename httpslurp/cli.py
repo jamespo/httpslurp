@@ -15,14 +15,14 @@ app.static('/httpslurp', cfg.conf['base']['dumpdir'])
 @app.route('/<path:path>')
 async def catch_all(request, path=''):
     '''catch-all hander to dump requests'''
-    dumpfile = requestdump(request, cfg.conf['base']['dumpdir'])
+    dumpfile, dumpdict = requestdump(request, cfg.conf['base']['dumpdir'])
     logger.info("Dumped %s" % dumpfile)
     # proxy if backend set up
     if cfg.conf.has_section('proxy'):
         proxy_response = await proxy(request, cfg.conf['proxy']['backend'])
         return text(proxy_response)
     else:
-        return json({"status": "ok"})
+        return json(dumpdict)
 
 
 def main():

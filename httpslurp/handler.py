@@ -20,7 +20,7 @@ def requestdump(request, dumpdir):
             # add cookies if there are any
             dumpdict["cookies"] = request.cookies
         logfile.write(json.dumps(dumpdict))
-    return filename
+    return filename, dumpdict
 
 
 async def proxy(request, backend):
