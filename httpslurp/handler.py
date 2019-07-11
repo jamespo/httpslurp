@@ -28,7 +28,9 @@ async def proxy(request, backend):
     proxy_url = backend + request.path
     if request.query_string != '':
         proxy_url += '?' + request.query_string
+    headers = request.headers
+    headers.pop('host')  # as host is changing
     async with aiohttp.ClientSession() as session:
-        async with session.get(proxy_url) as r:
+        async with session.get(proxy_url, headers=headers) as r:
             response = await r.text()
             return response
